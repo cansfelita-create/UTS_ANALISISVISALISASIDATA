@@ -1,0 +1,123 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOA/SAXd/WdecagpRPt6Upj",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/cansfelita-create/UTS_ANALISISVISALISASIDATA/blob/main/FELITA%20AYSHA%20FRIKASARI_UTSP4\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "TdJNu-WftnMt"
+      },
+      "outputs": [],
+      "source": [
+        "# Import library\n",
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "\n",
+        "# Membaca dataset\n",
+        "url = 'https://raw.githubusercontent.com/selva86/datasets/master/WineQuality_Red.csv'\n",
+        "df = pd.read_csv(url)\n",
+        "\n",
+        "# Menampilkan data awal\n",
+        "print(df.head())\n",
+        "\n",
+        "# Membuat kategori kualitas\n",
+        "df['kategori'] = df['quality'].apply(\n",
+        "    lambda x: 'high' if x >= 6 else 'low'\n",
+        ")\n",
+        "\n",
+        "# =========================\n",
+        "# Analisis Fitur\n",
+        "# =========================\n",
+        "\n",
+        "print(\"alcohol\")\n",
+        "print(df.groupby('kategori')['quality'].mean())\n",
+        "print()\n",
+        "\n",
+        "print(\"pH\")\n",
+        "print(df.groupby('kategori')['quality'].mean())\n",
+        "print()\n",
+        "\n",
+        "print(\"residual_sugar\")\n",
+        "print(df.groupby('kategori')['quality'].mean())\n",
+        "print()\n",
+        "\n",
+        "print(\"citric_acid\")\n",
+        "print(df.groupby('kategori')['quality'].mean())\n",
+        "print()\n",
+        "\n",
+        "# =========================\n",
+        "# Exploratory Data Analysis\n",
+        "# =========================\n",
+        "\n",
+        "# Informasi dataset\n",
+        "print(df.info())\n",
+        "\n",
+        "# Statistik data\n",
+        "print(df.describe())\n",
+        "\n",
+        "# Mengecek data kosong\n",
+        "print(df.isnull().sum())\n",
+        "\n",
+        "# Histogram\n",
+        "df.hist(figsize=(12,10))\n",
+        "plt.show()\n",
+        "\n",
+        "# Heatmap korelasi\n",
+        "plt.figure(figsize=(10,8))\n",
+        "sns.heatmap(df.corr(numeric_only=True),\n",
+        "            annot=True,\n",
+        "            cmap='coolwarm')\n",
+        "\n",
+        "plt.title('Heatmap Korelasi')\n",
+        "plt.show()\n",
+        "\n",
+        "# Grafik alcohol dan quality\n",
+        "plt.figure(figsize=(8,5))\n",
+        "\n",
+        "sns.boxplot(x='kategori',\n",
+        "            y='alcohol',\n",
+        "            data=df)\n",
+        "\n",
+        "plt.title('Alcohol berdasarkan Quality')\n",
+        "plt.show()\n",
+        "\n",
+        "# Scatterplot\n",
+        "plt.figure(figsize=(8,5))\n",
+        "\n",
+        "sns.scatterplot(x='alcohol',\n",
+        "                y='citric acid',\n",
+        "                hue='kategori',\n",
+        "                data=df)\n",
+        "\n",
+        "plt.title('Alcohol dan Citric Acid')\n",
+        "plt.show()"
+      ]
+    }
+  ]
+}
