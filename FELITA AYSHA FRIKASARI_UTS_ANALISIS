@@ -1,0 +1,128 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOrmC8htc97xFi/C7e0pDY6",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/cansfelita-create/UTS_ANALISISVISALISASIDATA/blob/main/FELITA%20AYSHA%20FRIKASARI_UTS_ANALISIS\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# ==============================\n",
+        "# SOAL P4 - ANALISIS DATA WINE\n",
+        "# ==============================\n",
+        "\n",
+        "# import library\n",
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "\n",
+        "# ==============================\n",
+        "# LOAD DATASET\n",
+        "# ==============================\n",
+        "\n",
+        "df = pd.read_csv('/content/winequality-red.csv')\n",
+        "\n",
+        "# cek data\n",
+        "print(df.head())\n",
+        "\n",
+        "# cek nama kolom\n",
+        "print(df.columns)\n",
+        "\n",
+        "# ==============================\n",
+        "# MEMBUAT LABEL HIGH & LOW\n",
+        "# ==============================\n",
+        "\n",
+        "df['quality_label'] = np.where(df['quality'] >= 7, 'high', 'low')\n",
+        "\n",
+        "# ==============================\n",
+        "# ANALISIS FITUR\n",
+        "# ==============================\n",
+        "\n",
+        "fitur = ['alcohol', 'pH', 'residual sugar', 'citric acid']\n",
+        "\n",
+        "for i in fitur:\n",
+        "    print(\"\\nFitur :\", i)\n",
+        "    print(df.groupby('quality_label')[i].mean())\n",
+        "\n",
+        "# ==============================\n",
+        "# EXPLORATORY DATA ANALYSIS\n",
+        "# ==============================\n",
+        "\n",
+        "# info data\n",
+        "print(df.info())\n",
+        "\n",
+        "# statistik deskriptif\n",
+        "print(df.describe())\n",
+        "\n",
+        "# missing value\n",
+        "print(df.isnull().sum())\n",
+        "\n",
+        "# ==============================\n",
+        "# VISUALISASI DATA\n",
+        "# ==============================\n",
+        "\n",
+        "# histogram\n",
+        "df.hist(figsize=(15,10))\n",
+        "plt.show()\n",
+        "\n",
+        "# heatmap korelasi\n",
+        "plt.figure(figsize=(12,8))\n",
+        "sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm')\n",
+        "plt.title(\"Correlation Heatmap\")\n",
+        "plt.show()\n",
+        "\n",
+        "# boxplot alcohol vs quality\n",
+        "plt.figure(figsize=(8,5))\n",
+        "sns.boxplot(x='quality', y='alcohol', data=df)\n",
+        "plt.title(\"Alcohol vs Quality\")\n",
+        "plt.show()\n",
+        "\n",
+        "# scatterplot\n",
+        "plt.figure(figsize=(8,5))\n",
+        "sns.scatterplot(x='alcohol', y='citric acid', hue='quality', data=df)\n",
+        "plt.title(\"Alcohol vs Citric Acid\")\n",
+        "plt.show()\n",
+        "\n",
+        "# ==============================\n",
+        "# KESIMPULAN\n",
+        "# ==============================\n",
+        "\n",
+        "print(\"\"\"\n",
+        "Kesimpulan:\n",
+        "1. Semakin tinggi kadar alcohol maka kualitas wine cenderung meningkat.\n",
+        "2. Citric acid memiliki hubungan positif terhadap kualitas wine.\n",
+        "3. Dataset tidak memiliki missing value.\n",
+        "4. Beberapa fitur memiliki korelasi kuat terhadap quality.\n",
+        "\"\"\")"
+      ],
+      "metadata": {
+        "id": "2vUZk6fuJ7At"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
